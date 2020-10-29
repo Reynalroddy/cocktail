@@ -1,4 +1,5 @@
 //fetch drinks on domcontentloaded
+import fetchDrink from "./fetchDrink.js"
 const URL = "https://www.thecocktaildb.com/api/json/v1/1/search.php?f=d";
 
 const getElement = (selection)=>{
@@ -15,7 +16,7 @@ else {
 
 }
 
-const fetchDrink = async (link)=>{
+/* const fetchDrink = async (link)=>{
   //showloading
   try {
     
@@ -28,8 +29,7 @@ const data = await response.json();
   }
 
 
-}
-
+} */
 
 const displayDrink = (url)=>{
 fetchDrink(url).then((data)=>{
@@ -40,15 +40,13 @@ if(data){
 const drinks = data.drinks.map((drink)=>{
 
 return `
-<div class="col-10 col-md-3 py-4 mx-auto mx-md-0" data-id=${drink.idDrink}>
-  <div class="img-cont">
+  <div class="col-10 col-md-3 py-4 mx-auto mx-md-0  img-cont" data-id=${drink.idDrink}>
     <img src=${drink.strDrinkThumb} alt=${drink.strDrink} class="img-fluid">
     <div class="drink-div bg-warning px-2">
-<h5 class="drink-name font-weight-bold text-uppercase">${drink.strDrink}</h5>
+<a href = "product.html" class="drink-name font-weight-bold text-uppercase item">${drink.strDrink}</a>
     </div>
    
-  </div>
-</div>`;
+  </div>`;
 
 }).join("");
  
@@ -56,6 +54,28 @@ return `
 let row = getElement(".display")
 
 row.innerHTML = drinks;
+                     
+const items = document.querySelectorAll(".item");
+const itemss = [...items];
+
+itemss.forEach((item)=>{
+
+item.addEventListener("click",(e)=>{
+
+console.log(e.target.parentElement.parentElement.dataset.id);
+const id = e.target.parentElement.parentElement.dataset.id;
+
+
+localStorage.setItem("ids",id);
+})
+
+});
+
+
+
+
+
+
 }
 
 else if (!data) {
